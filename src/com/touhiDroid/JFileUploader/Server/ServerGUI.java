@@ -17,7 +17,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JProgressBar;
 import javax.swing.JTextField;
 
-import com.touhiDroid.JFileUploader.Utils.Utils;
+import com.touhiDroid.JFileUploader.Utils.Constants;
 
 /**
  * @author Touhid
@@ -175,13 +175,13 @@ public class ServerGUI extends JFrame {
 
 	public int getServerPortNumber() {
 		if (serverPort <= 1024)
-			serverPort = Utils.DEFAULT_PORT;
+			serverPort = Constants.DEFAULT_PORT;
 		return serverPort;
 	}
 
 	public String getDestinationPath() {
 		if (serverPath.equals(null) || serverPath.length() == 0)
-			serverPath = Utils.DEFAULT_DESTINATION;
+			serverPath = Constants.DEFAULT_DESTINATION;
 		return serverPath;
 	}
 	

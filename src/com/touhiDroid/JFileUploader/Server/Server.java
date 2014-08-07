@@ -11,7 +11,7 @@ import java.net.Socket;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
-import com.touhiDroid.JFileUploader.Utils.Utils;
+import com.touhiDroid.JFileUploader.Utils.Constants;
 
 /**
  * @author Touhid
@@ -56,7 +56,7 @@ public class Server implements Runnable {
 			// 1. Read is_directory indicator / file name for single file
 			readObj = ois.readObject();
 			if (readObj instanceof String) {
-				if (readObj.toString().equals(Utils.KEY_DIRECTORY)) {
+				if (readObj.toString().equals(Constants.KEY_DIRECTORY)) {
 					// 2a. save the directory iteratively
 					clientHead = (String) ois.readObject();// 2 decide directory
 					System.out.println("Client head: " + clientHead);
@@ -96,7 +96,7 @@ public class Server implements Runnable {
 				readObj = ois.readObject();
 				while (readObj instanceof String) {
 					curFileParent = readObj.toString();
-					if (curFileParent.equals(Utils.KEY_DIR_STOPPER)) {
+					if (curFileParent.equals(Constants.KEY_DIR_STOPPER)) {
 						System.out.println("KEY_DIR_STOPPER got: "
 								+ curFileParent);
 						break;
@@ -133,7 +133,7 @@ public class Server implements Runnable {
 			if(f.exists())
 				f.delete();
 			fos = new FileOutputStream(f);
-			byte[] buffer = new byte[Utils.BUFFER_SIZE];
+			byte[] buffer = new byte[Constants.BUFFER_SIZE];
 			System.out.println("File name: " + fileName + ", File size="
 					+ fileSize);
 
@@ -162,7 +162,7 @@ public class Server implements Runnable {
 							.setCurProgress((int) ((counter * bytesRead * 100) / fileSize));
 				else
 					serverGUI.setCurProgress(100);
-			} while (bytesRead == Utils.BUFFER_SIZE);
+			} while (bytesRead == Constants.BUFFER_SIZE);
 			System.out.println("File save successful");
 			serverGUI.setCurProgress(100);
 		} catch (FileNotFoundException fnfe) {

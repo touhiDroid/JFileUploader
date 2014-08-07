@@ -7,7 +7,7 @@ package com.touhiDroid.JFileUploader.Utils;
  * @author Touhid
  * 
  */
-public class Utils {
+public class Constants {
 	public static final int DEFAULT_PORT = 5018;
 	public static final int BUFFER_SIZE = 8192;
 	public static final String DEFAULT_DESTINATION = "C:\\";

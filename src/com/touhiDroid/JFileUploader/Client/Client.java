@@ -13,7 +13,7 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
 import com.touhiDroid.JFileUploader.Interfaces.UploadListener;
-import com.touhiDroid.JFileUploader.Utils.Utils;
+import com.touhiDroid.JFileUploader.Utils.Constants;
 
 public class Client implements UploadListener {
 
@@ -38,7 +38,7 @@ public class Client implements UploadListener {
 			oos.writeLong(fileSize);
 
 			FileInputStream fis = new FileInputStream(file);
-			byte[] buffer = new byte[Utils.BUFFER_SIZE];
+			byte[] buffer = new byte[Constants.BUFFER_SIZE];
 			int bytesRead = 0;
 
 			int counter = 0;
@@ -64,7 +64,7 @@ public class Client implements UploadListener {
 		System.out.println("Directory name: " + directory.getName()
 				+ ", Directory file amount: " + directory.list().length);
 		try {
-			oos.writeObject(Utils.KEY_DIRECTORY);
+			oos.writeObject(Constants.KEY_DIRECTORY);
 			// Tell the server the client's head for directory making decision
 			oos.writeObject(directory.getParent());
 			oos.writeObject(directory);
@@ -86,7 +86,7 @@ public class Client implements UploadListener {
 		System.out.println(">>>>>> Now Stopping the transfer <<<<<");
 		clientGUI.setTotalProgress(100);
 		try {
-			oos.writeObject(Utils.KEY_DIR_STOPPER);
+			oos.writeObject(Constants.KEY_DIR_STOPPER);
 		} catch (IOException ioe) {
 			showErrorMessage("IOException while trying to stop the directory "
 					+ "upload flow:\n" + ioe.toString());
@@ -144,8 +144,8 @@ public class Client implements UploadListener {
 		String fileName = "";
 		try {
 			fileName = args[0];
-			startUpload(new File(fileName), Utils.DEFAULT_DESTINATION,
-					Utils.DEFAULT_PORT);
+			startUpload(new File(fileName), Constants.DEFAULT_DESTINATION,
+					Constants.DEFAULT_PORT);
 		} catch (Exception e) {
 			// System.out.println("Enter the name of the file :");
 			// fileName = new Scanner(System.in).nextLine();

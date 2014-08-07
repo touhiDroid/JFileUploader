@@ -19,7 +19,7 @@ import javax.swing.JProgressBar;
 import javax.swing.JTextField;
 
 import com.touhiDroid.JFileUploader.Interfaces.UploadListener;
-import com.touhiDroid.JFileUploader.Utils.Utils;
+import com.touhiDroid.JFileUploader.Utils.Constants;
 
 /**
  * @author Touhid
@@ -65,13 +65,13 @@ public class ClientGUI extends JFrame {
 				File f = fileChooser.getSelectedFile();
 				String port = fieldPort.getText();
 				if (port.equals(null))
-					port = Utils.DEFAULT_PORT + "";
+					port = Constants.DEFAULT_PORT + "";
 				int portNumber = Integer.parseInt(port);
 				// System.out.println("File name: " + f.getName()
 				// + ", Server: " + fieldURL.getText() + ", Port number: "
 				// + portNumber);
 				if (portNumber < 1025 || portNumber > 65535)
-					portNumber = Utils.DEFAULT_PORT;
+					portNumber = Constants.DEFAULT_PORT;
 				uploadListener.startUpload(f, fieldURL.getText(), portNumber);
 			}
 		});
