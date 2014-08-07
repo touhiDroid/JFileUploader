@@ -40,7 +40,7 @@ The project is developed in Eclipse IDE.
 6. Specify the `Server Port` as the same as specified in the server app.
 7. Select a file/folder in the file chooser & click "Upload" button.
 
-**CMD:**
+**Command Prompt:**
 
 1. Go to the `JFileUploader>src>com>touhiDroid>JFileUploader>Server` in the server PC & run `Server.java` class.
 2. Specify target save-location & server-port clicking on the set buttons.
