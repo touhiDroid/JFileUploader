@@ -48,7 +48,7 @@ The project is developed in Eclipse IDE.
 4. Specify server IP / destination folder & port no. same as the server-port.
 5. Choose the file to upload & click the "Upload" button in the client app.
 
-#### Bugs to Fix: ####
+#### Issues to Fix: ####
 
 1. Progress bars doesn't show proper progresses, though the console helps to understand the current progress.
 2. Sometimes the uploaded files uploads successfully but it shows size 0KB, though it gets fixed when it is opened by any text-editor or some app. like this.
