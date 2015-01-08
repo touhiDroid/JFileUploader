@@ -54,3 +54,9 @@ The project is developed in Eclipse IDE.
 2. Sometimes the uploaded files uploads successfully but it shows size 0KB, though it gets fixed when it is opened by any text-editor or some app. like this.
 3. While uploading a big-size folder (esp. containing nested folders) , some files gets corrupted (though transferred with full size) & can't be opened.
 4. Files bigger than 240MB causes Java heap-size overflow exception.
+
+#### Still TODO: ####
+
+1. Server-side file format specification: a new filed & check the first file/directory name-format.
+2. Server-side file type(extension) specification: check the file extension from the file name before proceding with the saving.
+3. Multiple submission confirmation from client: Client remembers the previous submission & alerts in case of matching file/folder name.
