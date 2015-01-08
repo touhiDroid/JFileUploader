@@ -7,10 +7,13 @@ import java.io.File;
 
 /**
  * @author Touhid
- *
+ * 
  */
 public interface UploadListener {
-	
-	public void startUpload(File f, String serverAddress, int serverPort);
+
+	public void connectAndGetServerConstraints(String serverAddress,
+			int serverPort);
+
+	public void startUpload(File[] f, String serverAddress, int serverPort);
 
 }

@@ -3,21 +3,9 @@
  */
 package com.touhiDroid.JFileUploader.Server;
 
-import java.awt.Dimension;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
-import java.awt.Insets;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-
-import javax.swing.JButton;
 import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-import javax.swing.JProgressBar;
-import javax.swing.JTextField;
 
-import com.touhiDroid.JFileUploader.Utils.Constants;
+import com.touhiDroid.JFileUploader.Utils.Utils;
 
 /**
  * @author Touhid
@@ -26,183 +14,206 @@ import com.touhiDroid.JFileUploader.Utils.Constants;
 @SuppressWarnings("serial")
 public class ServerGUI extends JFrame {
 
-	private JLabel labelDest = new JLabel("Destination path: ");
-	private JTextField fieldDest = new JTextField(50);
-	private JLabel labelPort = new JLabel("Server PORT: ");
-	private JTextField fieldPort = new JTextField("5018", 50);
+	private int serverPort = Utils.DEFAULT_PORT;
 
-	private JLabel labelWaitingMsg = new JLabel(
-			"Waiting for any client request ...");
-
-	// private JFileChooser fileChooser = new JFileChooser();
-
-	// private JButton buttonUpload = new JButton("Upload");
-	private JButton btnPathSet = new JButton("Set Path");
-	private JButton btnPortSet = new JButton("Set Port");
-
-	private JLabel labelTotalProgress = new JLabel("Total Progress:");
-	private JProgressBar totalProgBar = new JProgressBar(0, 100);
-
-	private JLabel labelCurProgress = new JLabel("Current Progress:");
-	private JProgressBar curProgBar = new JProgressBar(0, 100);
-
-	private int serverPort = 5018;
-	private String serverPath = "C:\\";
-
+	/**
+	 * Creates new form ServerGUI
+	 */
 	public ServerGUI() {
-		super("File Uploader - Server Side :: 1005018");
-
-		// set up layout
-		setLayout(new GridBagLayout());
-		GridBagConstraints constraints = new GridBagConstraints();
-		constraints.anchor = GridBagConstraints.WEST;
-		constraints.insets = new Insets(5, 5, 5, 5);
-
-		// set up components
-		// fileChooser.setMode(JFilePicker.MODE_OPEN);
-
-		btnPathSet.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				serverPath = fieldDest.getText();
-				showMessage("Server save location set to: " + serverPath);
-			}
-		});
-		btnPortSet.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				serverPort = Integer.parseInt(fieldPort.getText());
-				showMessage("Server-port set to: " + serverPort);
-			}
-		});
-
-		curProgBar.setPreferredSize(new Dimension(125, 25));
-		curProgBar.setStringPainted(true);
-		totalProgBar.setPreferredSize(new Dimension(125, 25));
-		totalProgBar.setStringPainted(true);
-
-		// add components to the frame
-		// constraints.fill = GridBagConstraints.HORIZONTAL;
-		constraints.gridx = 0;
-		constraints.gridy = 0;
-		constraints.gridwidth = 1;
-		add(labelDest, constraints);
-
-		constraints.gridx = 1;
-		constraints.weightx = 1.0;
-		constraints.gridwidth = 1;
-		add(fieldDest, constraints);
-
-		constraints.gridx = 2;
-		constraints.weightx = 1.0;
-		constraints.gridwidth = 1;
-		add(btnPathSet, constraints);
-
-		constraints.gridx = 0;
-		constraints.gridy = 1;
-		constraints.gridwidth = 1;
-		add(labelPort, constraints);
-
-		constraints.gridx = 1;
-		constraints.weightx = 1.0;
-		constraints.gridwidth = 1;
-		add(fieldPort, constraints);
-
-		constraints.gridx = 2;
-		constraints.weightx = 1.0;
-		constraints.gridwidth = 1;
-		add(btnPortSet, constraints);
-
-		constraints.gridx = 0;
-		constraints.gridy = 2;
-		constraints.gridwidth = 2;
-		constraints.fill = GridBagConstraints.CENTER;
-		constraints.weightx = 1.0;
-		add(labelWaitingMsg, constraints);
-
-		pack();
-		setLocationRelativeTo(null); // center on screen
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setVisible(true);
-
-	}
-
-	public void setProgressBarsVisible() {
-		GridBagConstraints constraints = new GridBagConstraints();
-		constraints.anchor = GridBagConstraints.WEST;
-		constraints.insets = new Insets(5, 5, 5, 5);
-		
-		labelWaitingMsg.setVisible(false);
-
-		constraints.gridx = 0;
-		constraints.gridy = 2;
-		constraints.gridwidth = 1;
-		constraints.anchor = GridBagConstraints.WEST;
-		add(labelTotalProgress, constraints);
-
-		constraints.gridx = 1;
-		constraints.weightx = 1.0;
-		constraints.gridwidth = 2;
-		constraints.fill = GridBagConstraints.HORIZONTAL;
-		add(totalProgBar, constraints);
-
-		constraints.gridx = 0;
-		constraints.gridy = 3;
-		constraints.gridwidth = 1;
-		constraints.anchor = GridBagConstraints.WEST;
-		add(labelCurProgress, constraints);
-
-		constraints.gridx = 1;
-		constraints.weightx = 1.0;
-		constraints.gridwidth = 2;
-		constraints.fill = GridBagConstraints.HORIZONTAL;
-		add(curProgBar, constraints);
-		add(btnPortSet, constraints);
-
-		pack();
-		setLocationRelativeTo(null); // center on screen
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setVisible(true);
-	}
-
-	public void setProgressBarsInvisible() {
-		labelWaitingMsg.setVisible(true);
-		labelCurProgress.setVisible(false);
-		curProgBar.setVisible(false);
-		labelTotalProgress.setVisible(false);
-		totalProgBar.setVisible(false);
+		getNimbusLookAndFeel();
+		initComponents();
+		jLabel1.setVisible(false);
+		jScrollPane1.setVisible(false);
+		jButton1.setVisible(false);
+		jSeparator1.setVisible(false);
+		serverPort = Utils.DEFAULT_PORT;
 	}
 
 	public int getServerPortNumber() {
-		if (serverPort <= 1024)
-			serverPort = Constants.DEFAULT_PORT;
+		String n = jTextPane1.getText();
+		if (n.equals(null) || n.length() == 0)
+			n = Utils.DEFAULT_PORT + "";
+		serverPort = Integer.parseInt(n);
 		return serverPort;
 	}
 
-	public String getDestinationPath() {
-		if (serverPath.equals(null) || serverPath.length() == 0)
-			serverPath = Constants.DEFAULT_DESTINATION;
-		return serverPath;
-	}
-	
-	public void setCurProgress(int progress){
-		curProgBar.setValue(progress);
-	}
-	
-	public void setTotalProgress(int progress){
-		totalProgBar.setValue(progress);
-	}
+	/**
+	 * This method is called from within the constructor to initialize the form.
+	 * WARNING: Do NOT modify this code. The content of this method is always
+	 * regenerated by the Form Editor.
+	 */
+	// <editor-fold defaultstate="collapsed" desc="Generated Code">
+	private void initComponents() {
 
-	private void showMessage(String message) {
-		JOptionPane.showMessageDialog(new JFrame(), message, "Server Info.",
-				JOptionPane.INFORMATION_MESSAGE);
+		jLabel1 = new javax.swing.JLabel();
+		jScrollPane1 = new javax.swing.JScrollPane();
+		jTextPane1 = new javax.swing.JTextPane();
+		jButton1 = new javax.swing.JButton();
+		jSeparator1 = new javax.swing.JSeparator();
+		jLabel2 = new javax.swing.JLabel();
+
+		setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+
+		jLabel1.setText("Server Port No. (1025~65535): ");
+
+		jScrollPane1.setViewportView(jTextPane1);
+
+		jButton1.setText("Set Port");
+		jButton1.addActionListener(new java.awt.event.ActionListener() {
+			public void actionPerformed(java.awt.event.ActionEvent evt) {
+				jButton1ActionPerformed(evt);
+			}
+		});
+
+		jLabel2.setText("Waiting for client request ...");
+
+		javax.swing.GroupLayout layout = new javax.swing.GroupLayout(
+				getContentPane());
+		getContentPane().setLayout(layout);
+		layout.setHorizontalGroup(layout
+				.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+				.addGroup(
+						layout.createSequentialGroup()
+								.addContainerGap()
+								.addGroup(
+										layout.createParallelGroup(
+												javax.swing.GroupLayout.Alignment.LEADING)
+												.addGroup(
+														layout.createParallelGroup(
+																javax.swing.GroupLayout.Alignment.TRAILING,
+																false)
+																.addComponent(
+																		jSeparator1)
+																.addGroup(
+																		layout.createSequentialGroup()
+																				.addComponent(
+																						jLabel1)
+																				.addPreferredGap(
+																						javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+																				.addComponent(
+																						jScrollPane1,
+																						javax.swing.GroupLayout.PREFERRED_SIZE,
+																						134,
+																						javax.swing.GroupLayout.PREFERRED_SIZE)
+																				.addPreferredGap(
+																						javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+																				.addComponent(
+																						jButton1)))
+												.addComponent(jLabel2))
+								.addContainerGap(
+										javax.swing.GroupLayout.DEFAULT_SIZE,
+										Short.MAX_VALUE)));
+		layout.setVerticalGroup(layout
+				.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+				.addGroup(
+						layout.createSequentialGroup()
+								.addContainerGap()
+								.addGroup(
+										layout.createParallelGroup(
+												javax.swing.GroupLayout.Alignment.LEADING)
+												.addComponent(jButton1)
+												.addGroup(
+														layout.createParallelGroup(
+																javax.swing.GroupLayout.Alignment.LEADING,
+																false)
+																.addComponent(
+																		jScrollPane1,
+																		javax.swing.GroupLayout.DEFAULT_SIZE,
+																		23,
+																		Short.MAX_VALUE)
+																.addComponent(
+																		jLabel1,
+																		javax.swing.GroupLayout.DEFAULT_SIZE,
+																		javax.swing.GroupLayout.DEFAULT_SIZE,
+																		Short.MAX_VALUE)))
+								.addPreferredGap(
+										javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+								.addComponent(jSeparator1,
+										javax.swing.GroupLayout.PREFERRED_SIZE,
+										11,
+										javax.swing.GroupLayout.PREFERRED_SIZE)
+								.addPreferredGap(
+										javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+								.addComponent(jLabel2)
+								.addContainerGap(
+										javax.swing.GroupLayout.DEFAULT_SIZE,
+										Short.MAX_VALUE)));
+
+		pack();
+	}// </editor-fold>
+
+	private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {
+		String n = jTextPane1.getText();
+		if (n.equals(null) || n.length() == 0)
+			n = Utils.DEFAULT_PORT + "";
+		serverPort = Integer.parseInt(n);
 	}
 
 	/**
 	 * @param args
+	 *            the command line arguments
 	 */
-	public static void main(String[] args) {
-		new ServerGUI();
+	public static void main(String args[]) {
+		getNimbusLookAndFeel();
+
+		/*
+		 * Create and display the form
+		 */
+		java.awt.EventQueue.invokeLater(new Runnable() {
+
+			public void run() {
+				new ServerGUI().setVisible(true);
+			}
+		});
 	}
 
+	private static void getNimbusLookAndFeel() {
+		/*
+		 * Set the Nimbus look and feel
+		 */
+		// <editor-fold defaultstate="collapsed"
+		// desc=" Look and feel setting code (optional) ">
+		/*
+		 * If Nimbus (introduced in Java SE 6) is not available, stay with the
+		 * default look and feel. For details see
+		 * http://download.oracle.com/javase
+		 * /tutorial/uiswing/lookandfeel/plaf.html
+		 */
+		try {
+			for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager
+					.getInstalledLookAndFeels()) {
+				if ("Nimbus".equals(info.getName())) {
+					javax.swing.UIManager.setLookAndFeel(info.getClassName());
+					break;
+				}
+			}
+		} catch (ClassNotFoundException ex) {
+			java.util.logging.Logger.getLogger(ServerGUI.class.getName()).log(
+					java.util.logging.Level.SEVERE, null, ex);
+		} catch (InstantiationException ex) {
+			java.util.logging.Logger.getLogger(ServerGUI.class.getName()).log(
+					java.util.logging.Level.SEVERE, null, ex);
+		} catch (IllegalAccessException ex) {
+			java.util.logging.Logger.getLogger(ServerGUI.class.getName()).log(
+					java.util.logging.Level.SEVERE, null, ex);
+		} catch (javax.swing.UnsupportedLookAndFeelException ex) {
+			java.util.logging.Logger.getLogger(ServerGUI.class.getName()).log(
+					java.util.logging.Level.SEVERE, null, ex);
+		}
+		// </editor-fold>
+	}
+
+	// Variables declaration - do not modify
+	private javax.swing.JButton jButton1;
+	private javax.swing.JLabel jLabel1;
+	private javax.swing.JLabel jLabel2;
+	private javax.swing.JScrollPane jScrollPane1;
+	private javax.swing.JSeparator jSeparator1;
+	private javax.swing.JTextPane jTextPane1;
+
+	// End of variables declaration
+
+	public void writeMessage(String message) {
+		jLabel2.setText(message);
+	}
 }
